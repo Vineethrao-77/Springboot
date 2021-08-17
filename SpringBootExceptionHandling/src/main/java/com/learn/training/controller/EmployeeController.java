@@ -67,14 +67,25 @@ public class EmployeeController {
 		response.put("deleted", Boolean.TRUE);
 		return response;
 	}
-	@GetMapping("emp/{firstName}")
-	public Employee getByfirstName(@PathVariable String firstName) {
+	@GetMapping("getemp/{firstName}")
+	public Employee getByfirstName(@PathVariable String firstName) throws NameNotFoundException {
+		if (service.getByfirstName(firstName) == null)
+			throw new NameNotFoundException("Name not found with" + firstName);
 		return service.getByfirstName(firstName);
+
+	}
+
+	@GetMapping("getemployee/{lastName}")
+	public Employee getByLastName(@PathVariable String lastName) throws NameNotFoundException {
+		if (service.getBylastName(lastName) == null)
+			throw new NameNotFoundException("Last Name Not found with name " + lastName);
+		return service.getBylastName(lastName);
 	}
 	
-	
-	@GetMapping("employee/{lastName}")
-	public Employee getByLastName(@PathVariable String lastName) {
-		return service.getBylastName(lastName);
+	@GetMapping("getEmployeebyemail/{emailId}")
+	public Employee getByemaiId(@PathVariable String emailId) {
+		if(service.getByemailid(emailId)==null)
+			throw new EmployeMailException("Employee mail not Found Exception with " +emailId + "please check and retry");
+		return service.getByemailid(emailId);
 	}
 }
